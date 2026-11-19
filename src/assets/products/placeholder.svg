@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500">
+  <rect width="1200" height="1500" fill="#dcebe9"/>
+  <path d="M155 1500V510C155 225 345 110 600 110s445 115 445 400v990" fill="#e9f1ed" stroke="#a1b9b2" stroke-width="6"/>
+  <path d="M600 110v1390M155 510h890M155 1010h890" stroke="#a1b9b2" stroke-width="4" fill="none"/>
+  <path d="M328 1410c50-350 155-610 300-810M883 1460c-40-280-113-430-250-600" fill="none" stroke="#7e8a62" stroke-width="9"/>
+  <g fill="#8d9c79"><path d="M415 1080q-155-84-120-192 142 6 120 192M489 879q-24-164 120-195 31 130-120 195M358 1255q-127-82-87-180 115 12 87 180M804 1170q-127-100-65-186 115 29 65 186"/></g>
+  <g fill="#d4a1ad"><ellipse cx="626" cy="596" rx="46" ry="79" transform="rotate(45 626 596)"/><ellipse cx="610" cy="596" rx="46" ry="79" transform="rotate(-45 610 596)"/><circle cx="618" cy="615" r="18" fill="#ad755d"/></g>
+  <rect x="320" y="1305" width="560" height="100" rx="2" fill="#f5f1e7" opacity=".93"/>
+  <text x="600" y="1367" text-anchor="middle" fill="#303d3a" font-family="sans-serif" font-size="24" letter-spacing="5">FOTO DA INSERIRE</text>
+</svg>

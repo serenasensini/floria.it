@@ -1,16 +1,25 @@
 ---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ProductCard from '../components/ProductCard.astro';
+import EventCard from '../components/EventCard.astro';
+import { brandImage } from '../lib/content';
+import { absoluteUrl, pathFor } from '../config/site';
+const products = (await getCollection('products')).filter((p) => p.data.featured).slice(0, 6);
+const events = (await getCollection('events')).slice(0, 2);
+const organization = { '@context': 'https://schema.org', '@type': 'Organization', name: 'Floria', url: absoluteUrl('/'), description: 'Creazioni artigianali ispirate al giardino e al mondo botanico.' };
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Floria | Un giardino di idee da indossare" description="Scopri Floria: accessori e capi artigianali ispirati al giardino, storie botaniche ed eventi da condividere." structuredData={[organization]} gate>
+  <section class="hero wrap">
+    <div class="hero-copy"><span class="eyebrow"><span class="eyebrow-line"></span> Creazioni artigianali · ispirazioni botaniche</span><h1>Un giardino<br />da <em>indossare.</em></h1><p>Tra foglie, fiori e piccoli gesti nascono creazioni da portare con sé, ogni giorno.</p><div class="button-row"><Button href="/collezione/">Scopri la collezione</Button><Button href="/contatti/" variant="outline">Contattami</Button></div><div class="hero-note"><span>01 / 06</span><span>Un mondo fatto a mano</span></div></div>
+    <div class="hero-visual"><div class="hero-frame"><Image src={brandImage} alt="Illustrazione segnaposto di una serra botanica con fiori e foglie" widths={[640, 960, 1280]} sizes="(max-width: 800px) 90vw, 52vw" loading="eager" fetchpriority="high" decoding="async" /></div><div class="hero-caption"><span>IL GIARDINO DI FLORIA</span><span>Una storia da coltivare ↗</span></div></div>
+  </section>
+  <section class="intro-section wrap"><span class="section-number">01 / LA FILOSOFIA</span><div><h2>La natura, nelle cose<br /><em>che scegliamo.</em></h2><p>Floria nasce dall'incontro tra sensibilità artigiana e meraviglia botanica. Borse, accessori e capi raccontano il piacere di creare con attenzione, lasciandosi ispirare dalle forme del giardino.</p><a class="text-link" href={pathFor("/chi-sono/")}>Scopri la storia <span aria-hidden="true">↗</span></a></div><div class="botanical-mark" aria-hidden="true">✳</div></section>
+  <section class="section wrap"><div class="section-top"><SectionHeading eyebrow="02 / LA COLLEZIONE" title="Piccole cose, grandi storie." description="Una selezione di creazioni da scoprire, come esemplari in un giardino." /><a class="text-link" href={pathFor("/collezione/")}>Tutta la collezione ↗</a></div><p class="demo-note">Le creazioni e le immagini mostrate sono esempi dimostrativi, in attesa dei contenuti definitivi.</p><div class="product-grid featured-grid">{products.map((product) => <ProductCard product={product} />)}</div></section>
+  <section class="story-band"><div class="wrap story-band-inner"><span class="eyebrow">UN INVITO A RALLENTARE</span><h2>Ci sono idee che hanno bisogno<br />di tempo per <em>fiorire.</em></h2><p>Ogni progetto comincia da uno sguardo curioso: una foglia, una forma, un incontro.</p><a class="text-link" href={pathFor("/chi-sono/")}>Entra nel mondo Floria ↗</a></div></section>
+  <section class="section wrap"><div class="section-top"><SectionHeading eyebrow="03 / INCONTRIAMOCI" title="Il giardino si apre." description="Eventi, incontri e sfilate: occasioni per condividere la bellezza delle cose fatte con cura." /><a class="text-link" href={pathFor("/eventi/")}>Tutti gli eventi ↗</a></div><p class="demo-note">Gli eventi qui presentati sono esempi, non appuntamenti confermati.</p><div class="event-grid">{events.map((event) => <EventCard event={event} />)}</div></section>
+  <section class="contact-band"><div class="wrap contact-band-inner"><div><span class="eyebrow">04 / COME ACQUISTARE</span><h2>Una creazione ti ha<br /><em>incuriosito?</em></h2></div><div><p>Le creazioni sono disponibili su richiesta. Per informazioni e acquisti, il contatto è diretto: via email o WhatsApp, non appena i recapiti saranno disponibili.</p><Button href="/contatti/" variant="outline">Vai ai contatti</Button></div></div></section>
+</BaseLayout>

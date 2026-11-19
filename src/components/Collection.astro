@@ -1,0 +1,57 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ProductCard from './ProductCard.astro';
+import { categories, pathFor, type Category } from '../config/site';
+interface Props { products: CollectionEntry<'products'>[]; category?: Category; order?: 'nome' | 'data'; }
+const { products, category, order = 'data' } = Astro.props;
+const sorted = [...products].filter((p) => !category || p.data.category === category).sort((a, b) => order === 'nome' ? a.data.title.localeCompare(b.data.title, 'it') : b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+---
+<div class="collection-controls" data-main-path={pathFor('/collezione/')}>
+  <nav class="filter-links" aria-label="Filtra per categoria">
+    <a href={pathFor("/collezione/")} data-filter="" aria-current={!category ? 'page' : undefined}>Tutti</a>
+    {Object.entries(categories).map(([key, name]) => <a href={pathFor(`/collezione/categoria/${key}/`)} data-filter={key} aria-current={category === key ? 'page' : undefined}>{name}</a>)}
+  </nav>
+  <div class="sort-links" aria-label="Ordina i prodotti"><span>Ordina:</span> <a href={pathFor("/collezione/ordine/data/")} data-order="data" aria-current={order === 'data' ? 'page' : undefined}>Più recenti</a> <a href={pathFor("/collezione/ordine/nome/")} data-order="nome" aria-current={order === 'nome' ? 'page' : undefined}>Nome</a></div>
+</div>
+<p class="collection-count" aria-live="polite">{sorted.length} creazioni dimostrative</p>
+<div class="product-grid collection-grid">{sorted.map((product) => <ProductCard product={product} />)}</div>
+<script>
+  const controls = document.querySelector<HTMLElement>('.collection-controls');
+  const grid = document.querySelector<HTMLElement>('.collection-grid');
+  if (controls && grid && location.pathname.replace(/\/$/, '') === controls.dataset.mainPath?.replace(/\/$/, '')) {
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.product-card'));
+    const params = new URLSearchParams(location.search);
+    let category = params.get('categoria') || '';
+    let order = params.get('ordine') === 'nome' ? 'nome' : 'data';
+    const render = () => {
+      cards.sort((a, b) => order === 'nome' ? (a.dataset.title || '').localeCompare(b.dataset.title || '', 'it') : (b.dataset.date || '').localeCompare(a.dataset.date || ''));
+      cards.forEach((card) => { card.hidden = !!category && card.dataset.category !== category; grid.append(card); });
+      controls.querySelectorAll<HTMLAnchorElement>('[data-filter]').forEach((a) => a.dataset.filter === category ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+      controls.querySelectorAll<HTMLAnchorElement>('[data-order]').forEach((a) => a.dataset.order === order ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+      const count = document.querySelector('.collection-count');
+      if (count) count.textContent = `${cards.filter((card) => !card.hidden).length} creazioni dimostrative`;
+    };
+    const update = () => {
+      const query = new URLSearchParams();
+      if (category) query.set('categoria', category);
+      if (order !== 'data') query.set('ordine', order);
+      history.pushState(null, '', `${location.pathname}${query.size ? `?${query}` : ''}`);
+      render();
+    };
+    controls.addEventListener('click', (event) => {
+      const link = (event.target as Element).closest<HTMLAnchorElement>('a');
+      if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      event.preventDefault();
+      if (link.dataset.filter !== undefined) category = link.dataset.filter;
+      if (link.dataset.order) order = link.dataset.order === 'nome' ? 'nome' : 'data';
+      update();
+    });
+    window.addEventListener('popstate', () => {
+      const query = new URLSearchParams(location.search);
+      category = query.get('categoria') || '';
+      order = query.get('ordine') === 'nome' ? 'nome' : 'data';
+      render();
+    });
+    render();
+  }
+</script>

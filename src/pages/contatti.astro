@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EmailButton from '../components/EmailButton.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { site, pathFor } from '../config/site';
+---
+<BaseLayout title="Contatti | Floria" description="Contatta Floria per informazioni sulle creazioni artigianali e sulla loro disponibilità.">
+  <div class="wrap page-intro"><span class="eyebrow">PARLIAMONE</span><h1>Un'idea da condividere?</h1><p>Per conoscere meglio una creazione o chiedere informazioni, il modo migliore è parlarne direttamente.</p></div>
+  <section class="wrap contact-page"><div class="contact-card"><span class="contact-icon" aria-hidden="true">✉</span><span class="eyebrow">SCRIVIMI</span><h2>Via email</h2><p>Per domande, dettagli e richieste sulle creazioni.</p><EmailButton label={site.email || 'Scrivimi via email'} /></div><div class="contact-card"><span class="contact-icon" aria-hidden="true">↗</span><span class="eyebrow">UN MESSAGGIO DIRETTO</span><h2>Su WhatsApp</h2><p>Per iniziare una conversazione in modo semplice.</p><WhatsAppButton label={site.whatsapp ? `+${site.whatsapp}` : 'Scrivimi su WhatsApp'} /></div></section>
+  <div class="wrap contact-end">{(!site.email || !site.whatsapp) && <p>I recapiti non ancora configurati saranno disponibili non appena comunicati.</p>}<p>Non sono presenti moduli di invio o acquisto online.</p><a class="text-link" href={pathFor("/privacy/")}>Informativa privacy ↗</a></div>
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Gallery from '../../../components/Gallery.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import Button from '../../../components/Button.astro';
+import { categoryName, productImageFor, productUrl } from '../../../lib/content';
+import { site, pathFor, absoluteUrl } from '../../../config/site';
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map((product) => ({ params: { categoria: product.data.category, slug: product.data.slug }, props: { product } }));
+}
+const { product } = Astro.props;
+const p = product.data;
+const related = (await getCollection('products')).filter((item) => item.data.category === p.category && item.id !== product.id).slice(0, 3);
+const images = p.images.map((image) => ({ src: productImageFor(image.src), alt: image.alt }));
+const image = await getImage({ src: images[0].src, width: 800, format: 'webp' });
+const productData = { '@context': 'https://schema.org', '@type': 'Product', name: p.title, description: p.description, image: new URL(image.src, site.url).href, category: categoryName(p.category), brand: { '@type': 'Brand', name: 'Floria' }, ...(p.price ? { offers: { '@type': 'Offer', price: p.price, priceCurrency: 'EUR', url: new URL(productUrl(product), site.url).href } } : {}) };
+const breadcrumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: absoluteUrl('/') }, { '@type': 'ListItem', position: 2, name: 'Collezione', item: absoluteUrl('/collezione/') }, { '@type': 'ListItem', position: 3, name: categoryName(p.category), item: absoluteUrl(`/collezione/categoria/${p.category}/`) }, { '@type': 'ListItem', position: 4, name: p.title, item: new URL(productUrl(product), site.url).href }] };
+---
+<BaseLayout title={`${p.title} | Floria`} description={p.shortDescription} structuredData={[productData, breadcrumbs]}>
+  <div class="wrap detail-wrap">
+    <nav class="breadcrumbs" aria-label="Percorso di navigazione"><a href={pathFor("/")}>Home</a><span>/</span><a href={pathFor("/collezione/")}>Collezione</a><span>/</span><a href={pathFor(`/collezione/categoria/${p.category}/`)}>{categoryName(p.category)}</a><span>/</span><span aria-current="page">{p.title}</span></nav>
+    <div class="detail-grid"><div><Gallery images={images} /><p class="image-disclaimer">Immagine segnaposto · prodotto dimostrativo</p></div><div class="detail-copy"><span class="eyebrow">{categoryName(p.category)} / FLORIA</span><h1>{p.title}</h1><p class="lead">{p.shortDescription}</p><p>{p.description}</p><p class="availability">{p.price ? new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' }).format(p.price) : p.availability}</p><Button href={`/contatti/?prodotto=${encodeURIComponent(p.title)}`}>Richiedi informazioni</Button><a class="back-link" href={pathFor("/collezione/")}>← Torna alla collezione</a><dl class="details-list"><div><dt>Materiali</dt><dd>{p.materials}</dd></div><div><dt>Dimensioni</dt><dd>{p.dimensions}</dd></div><div><dt>Cura</dt><dd>{p.care}</dd></div><div><dt>Disponibilità</dt><dd>{p.availability}</dd></div>{p.variants && <div><dt>Varianti</dt><dd>{p.variants.join(', ')}</dd></div>}</dl></div></div>
+    {related.length > 0 && <section class="section related"><div class="section-heading"><span class="eyebrow">DA SCOPRIRE</span><h2>Altre creazioni</h2></div><div class="product-grid">{related.map((item) => <ProductCard product={item} />)}</div></section>}
+  </div>
+</BaseLayout>

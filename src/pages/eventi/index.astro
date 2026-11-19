@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EventCard from '../../components/EventCard.astro';
+const events = (await getCollection('events')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<BaseLayout title="Eventi e sfilate | Floria" description="Incontri, eventi e sfilate: scopri il mondo botanico e artigianale di Floria.">
+  <div class="wrap page-intro"><span class="eyebrow">INCONTRIAMOCI</span><h1>Eventi e sfilate</h1><p>Il giardino diventa un luogo di incontro: momenti da vivere e storie da condividere.</p><p class="demo-note">Gli eventi, le date, i luoghi e le immagini sono esempi dimostrativi, non appuntamenti confermati.</p></div>
+  <section class="wrap section event-grid" aria-label="Eventi e sfilate">{events.map((event) => <EventCard event={event} />)}</section>
+</BaseLayout>

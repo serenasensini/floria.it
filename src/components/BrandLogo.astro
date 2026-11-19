@@ -1,0 +1,5 @@
+---
+interface Props { variant?: 'light' | 'dark'; }
+const { variant = 'light' } = Astro.props;
+---
+<span class:list={['brand-logo', `brand-logo--${variant}`]} aria-label="Floria">FLORIA</span>

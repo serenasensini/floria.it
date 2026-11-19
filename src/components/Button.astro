@@ -1,0 +1,6 @@
+---
+import { pathFor } from '../config/site';
+interface Props { href: string; variant?: 'solid' | 'outline'; }
+const { href, variant = 'solid' } = Astro.props;
+---
+<a href={href.startsWith('/') ? pathFor(href) : href} class:list={['button', `button--${variant}`]}><slot /><span aria-hidden="true">↗</span></a>

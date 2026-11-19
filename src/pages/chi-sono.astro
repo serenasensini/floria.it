@@ -1,0 +1,10 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import { brandImage } from '../lib/content';
+---
+<BaseLayout title="Chi sono | La storia di Floria" description="Conosci l'artigiana dietro Floria e l'ispirazione botanica delle sue creazioni.">
+  <div class="wrap page-intro"><span class="eyebrow">LA STORIA DI FLORIA</span><h1>Dietro ogni creazione,<br /><em>una storia.</em></h1><p>Un incontro tra mani, immaginazione e mondo botanico.</p></div>
+  <section class="wrap detail-grid editorial-grid"><div><div class="portrait-frame"><Image src={brandImage} alt="Illustrazione segnaposto in attesa del ritratto dell'artigiana" widths={[600, 900]} sizes="(max-width: 800px) 90vw, 45vw" loading="lazy" decoding="async" /></div><p class="image-disclaimer">Spazio riservato al ritratto di [Nome artigiana]</p></div><div class="editorial-copy"><span class="eyebrow">PIACERE DI CONOSCERTI</span><h2>Le mani dietro Floria</h2><p>Sono [Nome artigiana], l'artigiana che immagina e realizza le creazioni Floria: borse, borselli, guanti, shopper, giacchetti e grembiuli ispirati al giardino e all'orto botanico.</p><p>Il mio lavoro prende forma osservando la natura: una linea, una trama, un colore possono diventare il punto di partenza di un nuovo progetto. Materiali e lavorazioni saranno raccontati qui con i dettagli forniti dall'artigiana.</p><p>Il luogo in cui opera Floria è <strong>[luogo da inserire]</strong>. Per conoscere le creazioni e chiedere informazioni, visita la pagina contatti.</p><blockquote>“[Una citazione personale dell'artigiana]”</blockquote><p class="demo-note">Nome, luogo, materiali e citazione sono da completare e verificare prima della pubblicazione.</p><Button href="/contatti/">Contattami</Button></div></section>
+</BaseLayout>

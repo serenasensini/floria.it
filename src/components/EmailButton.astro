@@ -1,0 +1,5 @@
+---
+import { site } from '../config/site';
+const { label = 'Scrivimi via email' } = Astro.props;
+---
+{site.email ? <a class="text-link" href={`mailto:${site.email}`}>{label} ↗</a> : <span>Indirizzo email non ancora disponibile</span>}

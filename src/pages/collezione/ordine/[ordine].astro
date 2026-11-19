@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Collection from '../../../components/Collection.astro';
+export function getStaticPaths() { return ['nome', 'data'].map((ordine) => ({ params: { ordine } })); }
+const order = Astro.params.ordine === 'nome' ? 'nome' : 'data';
+const products = await getCollection('products');
+---
+<BaseLayout title={`Collezione per ${order === 'nome' ? 'nome' : 'data'} | Floria`} description="Esplora la collezione dimostrativa di creazioni botaniche Floria.">
+  <div class="wrap page-intro"><span class="eyebrow">IL GIARDINO DELLE IDEE</span><h1>La collezione</h1><p>Creazioni ordinate per {order === 'nome' ? 'nome' : 'data di pubblicazione'}.</p><p class="demo-note">Catalogo e immagini dimostrativi, da confermare.</p></div>
+  <section class="wrap collection-section" aria-label="Catalogo delle creazioni"><Collection products={products} order={order} /></section>
+</BaseLayout>

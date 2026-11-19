@@ -1,0 +1,15 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { productImageFor, productUrl, categoryName } from '../lib/content';
+interface Props { product: CollectionEntry<'products'>; }
+const { product } = Astro.props;
+const p = product.data;
+---
+<article class="product-card" data-category={p.category} data-title={p.title} data-date={p.publishedAt.toISOString()}>
+  <a class="card-image" href={productUrl(product)} aria-label={`Scopri ${p.title}`}>
+    <Image src={productImageFor(p.images[0].src)} alt={p.images[0].alt} widths={[360, 540, 720]} sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 30vw" loading="lazy" decoding="async" />
+    <span class="image-label">Immagine dimostrativa</span>
+  </a>
+  <div class="card-info"><span class="card-category">{categoryName(p.category)}</span><h3><a href={productUrl(product)}>{p.title}</a></h3><p>{p.shortDescription}</p><a class="card-link" href={productUrl(product)}>Scopri la creazione <span aria-hidden="true">↗</span></a></div>
+</article>

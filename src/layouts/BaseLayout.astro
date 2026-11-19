@@ -1,0 +1,37 @@
+---
+import { getImage } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import GardenGate from '../components/GardenGate.astro';
+import { brandImage, jsonLd } from '../lib/content';
+import { site, pathFor } from '../config/site';
+import '../styles/global.css';
+interface Props { title: string; description: string; structuredData?: unknown[]; gate?: boolean; }
+const { title, description, structuredData = [], gate = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const social = await getImage({ src: brandImage, width: 1200, height: 630, fit: 'cover', format: 'png' });
+const socialUrl = new URL(social.src, site.url).href;
+---
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {import.meta.env.BASE_URL !== '/' && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={pathFor("/favicon.svg")} />
+    <meta property="og:type" content="website" /><meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Floria" /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta property="og:image" content={socialUrl} />
+    <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} /><meta name="twitter:image" content={socialUrl} />
+    <title>{title}</title>
+    {structuredData.map((item) => <script type="application/ld+json" set:html={jsonLd(item)} />)}
+  </head>
+  <body>
+    <a class="skip-link" href="#contenuto">Vai al contenuto</a>
+    <Header />
+    <main id="contenuto" tabindex="-1"><slot /></main>
+    <Footer />
+    {gate && <GardenGate />}
+  </body>
+</html>

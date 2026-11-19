@@ -1,0 +1,17 @@
+---
+import BrandLogo from './BrandLogo.astro';
+import { pathFor } from '../config/site';
+---
+<header class="site-header">
+  <div class="header-inner wrap">
+    <a class="brand-link" href={pathFor("/")} aria-label="Floria, pagina iniziale"><BrandLogo /></a>
+    <nav class="desktop-nav" aria-label="Navigazione principale">
+      <a href={pathFor("/collezione/")}>Collezione</a><a href={pathFor("/chi-sono/")}>La storia</a><a href={pathFor("/eventi/")}>Eventi</a><a href={pathFor("/contatti/")}>Contatti</a>
+    </nav>
+    <a class="header-contact" href={pathFor("/contatti/")}>Parliamone <span aria-hidden="true">↗</span></a>
+    <details class="mobile-nav">
+      <summary aria-label="Apri o chiudi il menu">Menu <span aria-hidden="true">☰</span></summary>
+      <nav aria-label="Navigazione mobile"><a href={pathFor("/collezione/")}>Collezione</a><a href={pathFor("/chi-sono/")}>La storia</a><a href={pathFor("/eventi/")}>Eventi</a><a href={pathFor("/contatti/")}>Contatti</a></nav>
+    </details>
+  </div>
+</header>

@@ -1,0 +1,41 @@
+<dialog class="garden-gate" aria-labelledby="gate-title" aria-describedby="gate-description">
+  <div class="gate-leaf gate-left" aria-hidden="true"><div class="gate-pane"></div><span class="gate-flower">✳</span></div>
+  <div class="gate-leaf gate-right" aria-hidden="true"><div class="gate-pane"></div><span class="gate-flower">✳</span></div>
+  <div class="gate-content">
+    <span class="eyebrow">Benvenuti nel mondo di</span>
+    <p id="gate-title" class="gate-logo">FLORIA</p>
+    <p id="gate-description">Un giardino di idee da indossare.</p>
+    <button class="button button--solid" type="button" data-enter>Entra nel giardino <span aria-hidden="true">→</span></button>
+    <button class="gate-skip" type="button" data-skip>Salta l'introduzione</button>
+  </div>
+</dialog>
+<script>
+  const gate = document.querySelector<HTMLDialogElement>('.garden-gate');
+  if (gate) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let seen = false;
+    try { seen = localStorage.getItem('floria-gate-seen') === 'yes'; } catch { /* La navigazione resta disponibile senza storage. */ }
+    const replay = location.hash === '#rivedi-cancello';
+    const close = (animate: boolean) => {
+      try { localStorage.setItem('floria-gate-seen', 'yes'); } catch { /* Storage non disponibile. */ }
+      if (animate && !reduced.matches) {
+        gate.classList.add('is-opening');
+        window.setTimeout(() => { gate.close(); gate.classList.remove('is-opening'); }, 1400);
+      } else gate.close();
+    };
+    if ((!seen || replay) && !reduced.matches) {
+      gate.showModal();
+      gate.querySelector<HTMLButtonElement>('[data-enter]')?.focus();
+    }
+    if (replay) history.replaceState(null, '', location.pathname + location.search);
+    gate.querySelector('[data-enter]')?.addEventListener('click', () => close(true));
+    gate.querySelector('[data-skip]')?.addEventListener('click', () => close(false));
+    gate.addEventListener('cancel', (event) => { event.preventDefault(); close(false); });
+    document.querySelectorAll<HTMLAnchorElement>('a[data-replay-gate]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        if (reduced.matches) return;
+        event.preventDefault(); gate.showModal(); gate.querySelector<HTMLButtonElement>('[data-enter]')?.focus();
+      });
+    });
+  }
+</script>

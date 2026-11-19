@@ -1,0 +1,15 @@
+---
+import BrandLogo from './BrandLogo.astro';
+import EmailButton from './EmailButton.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import { site, pathFor } from '../config/site';
+---
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div><a class="brand-link" href={pathFor("/")} aria-label="Floria, pagina iniziale"><BrandLogo variant="dark" /></a><p>Creazioni artigianali<br />ispirate al mondo botanico.</p></div>
+    <div><h2>Esplora</h2><a href={pathFor("/collezione/")}>La collezione</a><a href={pathFor("/chi-sono/")}>La storia</a><a href={pathFor("/eventi/")}>Eventi e sfilate</a></div>
+    <div><h2>Restiamo in contatto</h2><EmailButton /><WhatsAppButton />{site.instagram ? <a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram ↗</a> : <span>Social non ancora disponibili</span>}</div>
+    <div><h2>Informazioni</h2><a href={pathFor("/contatti/")}>Contatti</a><a href={pathFor("/privacy/")}>Privacy</a><a href={pathFor("/#rivedi-cancello")} data-replay-gate>Rivedi l'ingresso</a></div>
+  </div>
+  <div class="wrap footer-bottom"><span>© {new Date().getFullYear()} Floria</span><span>Un piccolo giardino di idee.</span></div>
+</footer>

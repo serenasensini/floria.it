@@ -1,0 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { eventImageFor, eventUrl, formatDate } from '../lib/content';
+interface Props { event: CollectionEntry<'events'>; }
+const { event } = Astro.props;
+const e = event.data;
+---
+<article class="event-card">
+  <a class="event-image" href={eventUrl(event)}><Image src={eventImageFor(e.images[0].src)} alt={e.images[0].alt} widths={[400, 700]} sizes="(max-width: 700px) 90vw, 40vw" loading="lazy" decoding="async" /></a>
+  <div class="event-info"><span class="eyebrow">{e.confirmed ? 'Evento' : 'Evento dimostrativo'} · {formatDate(e.date)} · {e.location}</span><h3><a href={eventUrl(event)}>{e.title}</a></h3><p>{e.description}</p><a class="card-link" href={eventUrl(event)}>Scopri l'evento <span aria-hidden="true">↗</span></a></div>
+</article>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000">
+  <rect width="1400" height="1000" fill="#e4edef"/>
+  <path d="M140 1000V430C140 190 400 80 700 80s560 110 560 350v570" fill="#c3dde3" stroke="#758982" stroke-width="7"/>
+  <path d="M700 80v920M140 430h1120M140 740h1120M420 145v855M980 145v855" fill="none" stroke="#758982" stroke-width="5"/>
+  <path d="M0 860q320-90 700 10t700-20v150H0" fill="#d4dfcb"/>
+  <g fill="#7e8a62"><path d="M110 1000q-30-280 130-400-30 230-130 400M1290 1000q20-300-130-420 20 250 130 420"/><ellipse cx="240" cy="645" rx="80" ry="32" transform="rotate(-40 240 645)"/><ellipse cx="1160" cy="640" rx="80" ry="32" transform="rotate(40 1160 640)"/></g>
+  <g fill="#d4a1ad"><circle cx="240" cy="590" r="32"/><circle cx="1160" cy="570" r="32"/></g>
+  <rect x="430" y="820" width="540" height="90" fill="#f5f1e7" opacity=".94"/>
+  <text x="700" y="876" text-anchor="middle" fill="#303d3a" font-family="sans-serif" font-size="22" letter-spacing="4">FOTO DA INSERIRE</text>
+</svg>

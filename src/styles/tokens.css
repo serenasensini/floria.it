@@ -1,0 +1,14 @@
+:root {
+  --color-paper: #F5F1E7;
+  --color-glass: #C3DDE3;
+  --color-brand: #5BABA3;
+  --color-ink: #303D3A;
+  --color-flower: #D4A1AD;
+  --color-leaf: #7E8A62;
+  --color-clay: #AD755D;
+  --color-brand-dark: #326e69;
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --space-section: clamp(5rem, 9vw, 9rem);
+  --motion-gate: 1.4s;
+}

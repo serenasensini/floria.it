@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Collection from '../../components/Collection.astro';
+const products = await getCollection('products');
+---
+<BaseLayout title="Collezione | Floria" description="Esplora borse, borselli, guanti, shopper, giacchetti e grembiuli ispirati al mondo botanico.">
+  <div class="wrap page-intro"><span class="eyebrow">IL GIARDINO DELLE IDEE</span><h1>La collezione</h1><p>Forme da indossare, dettagli da custodire. Scopri le creazioni ispirate alla natura.</p><p class="demo-note">Catalogo e immagini dimostrativi: nomi e caratteristiche sono esempi da confermare.</p></div>
+  <section class="wrap collection-section" aria-label="Catalogo delle creazioni"><Collection products={products} /></section>
+</BaseLayout>

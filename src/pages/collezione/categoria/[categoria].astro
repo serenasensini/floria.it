@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Collection from '../../../components/Collection.astro';
+import { categories, type Category } from '../../../config/site';
+export function getStaticPaths() { return Object.keys(categories).map((categoria) => ({ params: { categoria } })); }
+const category = Astro.params.categoria as Category;
+const products = await getCollection('products');
+---
+<BaseLayout title={`${categories[category]} | Collezione Floria`} description={`Esplora ${categories[category].toLowerCase()} ispirati al giardino nella collezione dimostrativa Floria.`}>
+  <div class="wrap page-intro"><span class="eyebrow">COLLEZIONE / {categories[category]}</span><h1>{categories[category]}</h1><p>Una selezione di creazioni ispirate al mondo botanico.</p><p class="demo-note">Catalogo e immagini dimostrativi, da confermare.</p></div>
+  <section class="wrap collection-section" aria-label="Catalogo delle creazioni"><Collection products={products} category={category} /></section>
+</BaseLayout>
